@@ -1,0 +1,69 @@
+class BoolArray:
+    def __init__(self, array):
+        self.array = array
+
+    def ssl(self, k):
+        "SSL (сдвиг влево с циклическим переносом)"
+        return self.array[k:] + self.array[:k]
+
+    def srl(self, k):
+        "SRL (сдвиг вправо с циклическим переносом)"
+        return self.array[-k:] + self.array[:-k]
+
+    def slc(self):
+        "SLC (циклический сдвиг влево на 1 позицию)"
+        return self.ssl(1)
+
+    def and_op(self, other):
+        "AND операция (логическое И)"
+        return [a and b for a, b in zip(self.array, other.array)]
+
+    def or_op(self, other):
+        "OR операция (логическое ИЛИ)"
+        return [a or b for a, b in zip(self.array, other.array)]
+
+    def xor_op(self, other):
+        "XOR операция (исключающее ИЛИ)"
+        return [a != b for a, b in zip(self.array, other.array)]
+
+    def xnor_op(self, other):
+        "XNOR операция (эквивалентность)"
+        return [a == b for a, b in zip(self.array, other.array)]
+
+    def impl(self, other):
+        "IMPL операция (импликация)"
+        return [not a or b for a, b in zip(self.array, other.array)]
+
+    def flip(self, position=0):
+        "Инвертирование значения на указанной позиции"
+        if 0 <= position < len(self.array):
+            self.array[position] = not self.array[position]
+        return self.array
+
+# Пример:
+arr1 = BoolArray([True, False, True, False])
+arr2 = BoolArray([False, True, False, True])
+
+# Сдвиг влево на 2 позиции
+print("SSL:", arr1.ssl(2))
+
+# Сдвиг вправо на 2 позиции
+print("SRL:", arr1.srl(2))
+
+# Логическое AND
+print("AND:", arr1.and_op(arr2))
+
+# Логическое OR
+print("OR:", arr1.or_op(arr2))
+
+# Логическое XOR
+print("XOR:", arr1.xor_op(arr2))
+
+# Логическое XNOR
+print("XNOR:", arr1.xnor_op(arr2))
+
+# Импликация
+print("IMPL:", arr1.impl(arr2))
+
+# Инверсия значения на позиции 2
+print("Flip position 2:", arr1.flip(2))
